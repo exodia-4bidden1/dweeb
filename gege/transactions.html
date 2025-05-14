@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="transacttions.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/db44558fb6.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <nav class="header">
+      <img src="./assests/dots.png" alt="menu" id="menu-icon">
+       <h3>Hello, User!</h3>
+      
+    </nav>
+        
+    <div id="sidebar">
+      <div class="logo-text">
+        <img src="./assests/JustInCase Logo 1.png" alt="logo" width="45px" height="34px" style="padding-right: 10px;">
+       <h2>Just<span style="color: #FF0;">In</span>Case</h2>
+      </div>
+
+    <hr  />
+    
+    <a href="#" class="nav-item"><i class="fa-solid fa-desktop"></i>Device Catalog</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-receipt"></i>Transactions</a>
+    
+    <hr />
+    
+    <a href="#" class="nav-item"><i class="fa-solid fa-bell"></i>Notifications</a>
+    
+    <hr />
+    
+    <a href="#" class="nav-item"><i class="fa-solid fa-book-bookmark"></i>User Agreement</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-user"></i>Account Settings</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-newspaper"></i>Terms and Conditions</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-circle-question"></i>FAQ</a>
+    
+    <hr />
+
+  <div class="logout">
+        <a href="#" class="logoutbtn"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+  </div>
+</div>
+
+
+<script>
+  const togglemenu = document.getElementById('menu-icon');
+  const sidebar = document.getElementById('sidebar');
+
+  togglemenu/addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+  });
+
+
+</script>
+
+    
+</body>
+</html>
