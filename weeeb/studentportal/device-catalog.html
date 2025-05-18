@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JustInCase</title>
     <link rel="shortcut icon" href="../assests/JustInCase Logo 1.png" type="png">
+    <link rel="stylesheet" href="fragments.css">
     <link rel="stylesheet" href="device-catalog.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,40 +15,9 @@
     
 </head>
 <body>
-    <nav class="header">
-      <img src="../assests/dots.png" alt="menu" id="menu-icon">
-       <h3>Hello, User!</h3>
-      
-    </nav>
-        
-    <div id="sidebar">
-      <div class="logo-text">
-        <img src="../assests/JustInCase Logo 1.png" alt="logo" width="45px" height="34px" style="padding-right: 10px;">
-       <h2 style="font-weight: 700;">Just<span style="color: #FF0;">In</span>Case</h2>
-      </div>
 
-    <hr  />
-    
-    <a href="#" class="nav-item"><i class="fa-solid fa-desktop"></i>Device Catalog</a>
-    <a href="./transactions.html" class="nav-item"><i class="fa-solid fa-receipt"></i>Transactions</a>
-    
-    <hr />
-    
-    <a href="#notifications" class="nav-item"><i class="fa-solid fa-bell"></i>Notifications</a>
-    
-    <hr />
-    
-    <a href="#user-agreement" class="nav-item"><i class="fa-solid fa-book-bookmark"></i>User Agreement</a>
-    <a href="#account-settings" class="nav-item"><i class="fa-solid fa-user"></i>Account Settings</a>
-    <a href="#terms-conditions" class="nav-item"><i class="fa-solid fa-newspaper"></i>Terms and Conditions</a>
-    <a href="#FAQ" class="nav-item"><i class="fa-solid fa-circle-question"></i>FAQ</a>
-    
-    <hr />
-
-  <div class="logout">
-        <a href="#" class="logoutbtn"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
-  </div>
-</div>
+<div id="sidebar-container"></div>
+<div class="notif-container"></div>
 
 <!-- DEVICE CATALOG CONTENT -->
 <div class="container">
@@ -151,7 +121,7 @@
 <!-- MODAL -->
 <div id="popupModal" class="modal" style="display: none;">
   <div class="modal-content">
-    <h2>Reserve MacBook Pro 14”</h2>
+    <h2 id="device-name">Reserve MacBook Pro 14”</h2>
 
     <label>Purpose of Borrowing</label>
     <textarea placeholder="Describe what you'll be using the device for"></textarea>
@@ -189,30 +159,59 @@
 </div>
 
 
-
-
 <script>
-    // SIDEBAR TOGGLE
-    const togglemenu = document.getElementById('menu-icon');
-    const sidebar = document.getElementById('sidebar');
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('fragments.html')
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to load sidebar-modals.html');
+      return response.text();
+    })
+    .then(html => {
+      console.log(html);
+      // Insert entire fetched HTML inside sidebar-container
+      document.getElementById('sidebar-container').innerHTML = html;
 
-    togglemenu.addEventListener('click', (e) => {
-      e.stopPropagation();
-      sidebar.classList.toggle('active');
+      // Sidebar toggle setup
+      const togglemenu = document.getElementById('menu-icon');
+      const sidebar = document.getElementById('sidebar');
+
+      if (togglemenu && sidebar) {
+        togglemenu.addEventListener('click', e => {
+          e.stopPropagation();
+          sidebar.classList.toggle('active');
+        });
+
+        document.addEventListener('click', e => {
+          const isClickInside = sidebar.contains(e.target) || togglemenu.contains(e.target);
+          if (!isClickInside || e.target.closest('.nav-item')) {
+            sidebar.classList.remove('active');
+          }
+        });
+      }
+
+      // Notification popup toggle setup
+      const notificationLink = document.querySelector('a[href="#notificationPopup"]');
+      const notificationPopup = document.getElementById('notificationPopup');
+
+      if (notificationLink && notificationPopup) {
+        notificationLink.addEventListener('click', e => {
+          e.preventDefault();
+          notificationPopup.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', e => {
+          const isInsideNotification = notificationPopup.contains(e.target) || notificationLink.contains(e.target);
+          if (!isInsideNotification && !notificationPopup.classList.contains('hidden')) {
+            notificationPopup.classList.add('hidden');
+          }
+        });
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('sidebar-container').textContent = 'Failed to load sidebar.';
     });
-
-    // Hide sidebar if clicked outside
-    document.addEventListener('click', (e) => {
-    const isClickInside = sidebar.contains(e.target) || togglemenu.contains(e.target);
-    if (!isClickInside) {
-      sidebar.classList.remove('active');
-    }
-
-    // If a nav item was clicked, hide the sidebar
-    if (e.target.closest('.nav-item')) {
-      sidebar.classList.remove('active');
-    }
-  });
+});
 
   // DROPDOWN
   function selectDropdownItem(item) {
