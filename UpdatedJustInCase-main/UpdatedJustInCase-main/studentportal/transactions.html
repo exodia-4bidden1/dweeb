@@ -68,7 +68,7 @@ AHAHAHHHAH
         <th>BORROWED</th>
         <th>DUE TIME</th>
         <th>STATUS</th>
-        <th style="text-align: right; padding-right: 50px;">ACTIONS</th>
+        <th style="text-align: right; padding-right: 81px;">ACTIONS</th>
       </tr>
       <tr>
           <td class="device-cell">
@@ -116,7 +116,7 @@ AHAHAHHHAH
         <th>REQUEST DATA</th>
         <th>DUE TIME</th>
         <th>STATUS</th>
-        <th style="text-align: right; padding-right: 50px;">ACTIONS</th>
+        <th style="text-align: right; padding-right: 70px;">ACTIONS</th>
       </tr>
       <tr>
         <td class="device-cell">
@@ -131,7 +131,7 @@ AHAHAHHHAH
         <td class="date-borrowed">May 10, 2025</td>
         <td class="due-time">2:00 PM</td>
         <td><span class="status-active">Active</span></td>
-        <td><div class="action-button"><button class="details-btn">View Details</button>
+        <td><div class="action-button">
           <button class="cancel-btn">Cancel</button></div></td>
       </tr>
       <tr>
@@ -147,7 +147,7 @@ AHAHAHHHAH
         <td class="date-borrowed">May 10, 2025</td>
         <td class="due-time">2:00 PM</td>
         <td><span class="status-active">Active</span></td>
-        <td><div class="action-button"><button class="details-btn">View Details</button>
+        <td><div class="action-button">
           <button class="cancel-btn">Cancel</button></div></td>
       </tr>
     </table>
@@ -162,7 +162,7 @@ AHAHAHHHAH
         <th>CHECKOUT DATE</th>
         <th>RETURN DATE</th>
         <th>STATUS</th>
-        <th style="text-align: right; padding-right: 50px;">ACTIONS</th>
+        <th style="text-align: right; padding-right: 60px;">ACTIONS</th>
       </tr>
       <tr>
         <td class="device-cell">
@@ -177,7 +177,7 @@ AHAHAHHHAH
         <td class="date-borrowed">May 10, 2025</td>
         <td class="date-return">May 2, 2025</td>
         <td><span class="status-active">Active</span></td>
-        <td><div class="action-button"><button class="details-btn">View Details</button></div></td>
+        
       </tr>
       <tr>
        <td class="device-cell">
@@ -192,7 +192,6 @@ AHAHAHHHAH
         <td class="date-borrowed">May 10, 2025</td>
         <td class="date-return">May 2, 2025</td>
         <td><span class="status-active">Active</span></td>
-        <td><div class="action-button"><button class="details-btn">View Details</button></div></td>
       </tr>
     </table>
   </div>
@@ -276,16 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // User Agreement popup setup
-        const userAgreementLink = document.querySelector('a[href="#useragreement"]');
-      const userAgreementModal = document.getElementById('user-agree-modal');
+      const userAgreementLink = document.querySelector('a[href="#useragreement"]');
+const userAgreementModal = document.getElementById('user-agree-modal');
 
-      if (userAgreementLink && userAgreementModal) {
-        const modal = new bootstrap.Modal(userAgreementModal);
+if (userAgreementLink && userAgreementModal) {
+  const modal = new bootstrap.Modal(userAgreementModal);
 
-        userAgreementLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          modal.show();
-        });
+  userAgreementLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.show();
+  });
       }
     })
     .catch(err => {

@@ -24,8 +24,8 @@
     
     <a href="#useragreement" class="nav-item"><i class="fa-solid fa-book-bookmark"></i>User Agreement</a>
     <a href="../studentportal/accountSettings.html" class="nav-item"><i class="fa-solid fa-user"></i>Account Settings</a>
-    <a href="#terms-conditions" class="nav-item"><i class="fa-solid fa-newspaper"></i>Terms and Conditions</a>
-    <a href="#FAQ" class="nav-item"><i class="fa-solid fa-circle-question"></i>FAQ</a>
+    <a href="#" class="nav-item" data-bs-toggle="modal" data-bs-target="#termsModal"><i class="fa-solid fa-newspaper"></i>Terms and Conditions</a>
+<a href="faq.html" class="nav-item"><i class="fa-solid fa-question-circle"></i> FAQ</a>
     
     <hr />
 
@@ -132,7 +132,7 @@
 
 <!-- USER AGREEMENT MODAL -->
 <div class="modal fade" id="user-agree-modal" tabindex="-1" aria-labelledby="user-agreement" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable custom-dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <div>
@@ -182,3 +182,42 @@
     </div>
   </div>
 </div>
+
+<!-- TERMS AND CONDITIONS MODAL -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="section-label">Just In Case</p>
+          <h5 class="modal-title fw-bold" id="termsLabel">Terms & Conditions</h5>
+          <p class="last-updated">Last Updated: May 10, 2025</p>
+        </div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Paste the full content from the Terms & Conditions image here -->
+        <h6 class="fw-bold">1. ELIGIBILITY AND REGISTRATION</h6>
+        <p>1.1 The Campus Device Lending Program (“Program”) is available to currently enrolled students, faculty, and staff with a valid campus ID.</p>
+        <p>1.2 Users must complete the registration process before borrowing any devices, which includes:</p>
+        <ul>
+          <li>Verification of campus identity</li>
+          <li>Providing current contact information</li>
+          <li>Acceptance of these Terms & Conditions</li>
+        </ul>
+
+        <h6 class="fw-bold">2. DEVICE BORROWING TERMS</h6>
+        <p>2.1 <strong>Loan Period:</strong> Devices may be borrowed for same-day use only. All devices must be returned by 5:00 PM on the day of borrowing.</p>
+        <p>2.2 <strong>Campus Use Only:</strong> Borrowed devices must remain on campus premises at all times...</p>
+        <!-- Continue adding the rest of the T&C content -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Agree</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

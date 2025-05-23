@@ -203,14 +203,6 @@ i{
   }
 
   /* USER AGREEMENT MODAL */
-
-.custom-dialog {
-  position: fixed;
-  max-width: 800px !important;
-  width: 70% !important;
-  left: 25%;
-}
-
   .section-label {
   text-transform: uppercase;
   color: #0d6efd;
@@ -229,4 +221,8 @@ i{
   scrollbar-color: #007bff #f1f1f1;
 }
 
-
+@media (max-width: 768px) {
+  .custom-user-modal {
+    width: 95%;
+  }
+}

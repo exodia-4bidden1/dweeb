@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./assets/ICON.png" type="image/png" />
+  </head>
+  <body>
+    <div class="left-side">
+      <div class="login-container">
+        <h1>Welcome Back!</h1>
+        <form action="login.php" id="loginForm" method="POST">
+          <div class="input-box">
+            <label for="identifier">Student ID or Email</label><br />
+            <input
+              type="text"
+              id="identifier"
+              name="identifier"
+              placeholder="Enter your student ID or email"
+              required
+            />
+          </div>
+
+          <div class="input-box">
+            <label for="password">Password</label><br />
+            <div style="position: relative">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                style="padding-right: 30px"
+              />
+              <span
+                id="togglePassword"
+                style="
+                  position: absolute;
+                  right: 8px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  cursor: pointer;
+                "
+              >
+                <i class="bx bx-show"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="forgot">
+            <a href="#">Forgot password?</a>
+          </div>
+
+          <button class="btn" type="submit">Login</button>
+
+          <div class="register-link">
+            <p>
+              Don’t have an account?
+              <a href="../register/register.html">Register now</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="right-side">
+      <div class="logo">
+        <img src="../assets/JustInCase Logo 3.png" alt="Logo" />
+        <span>Just<span style="color: yellow">In</span>Case</span>
+      </div>
+      <img src="../assets/image login.png" alt="Login Illustration" />
+    </div>
+
+    <!-- Add this inside <body> in login.html -->
+    <div
+      id="successMsg"
+      style="display: none; color: green; text-align: center"
+    >
+      Registration successful! Please log in.
+    </div>
+
+    <div id="errorMsg" style="display: none; color: red; text-align: center">
+      Invalid login credentials.
+    </div>
+
+    <!-- ...existing code... -->
+    <script>
+      // Password visibility toggle
+      document.getElementById("togglePassword").onclick = function () {
+        const pwd = document.getElementById("password");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+        this.innerHTML =
+          pwd.type === "password"
+            ? "<i class='bx bx-show'></i>"
+            : "<i class='bx bx-hide'></i>";
+      };
+
+      // Password visibility toggle
+      document.getElementById("togglePassword").onclick = function () {
+        const pwd = document.getElementById("password");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+        this.innerHTML =
+          pwd.type === "password"
+            ? "<i class='bx bx-show'></i>"
+            : "<i class='bx bx-hide'></i>";
+      };
+
+      // Prevent double submit
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function () {
+          this.querySelector('button[type="submit"]').disabled = true;
+        });
+
+      // Show registration success message if redirected from registration
+      if (window.location.search.includes("registered=1")) {
+        document.getElementById("successMsg").style.display = "block";
+      }
+    </script>
+  </body>
+</html>

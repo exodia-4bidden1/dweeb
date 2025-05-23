@@ -52,16 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // User Agreement popup setup
-        const userAgreementLink = document.querySelector('a[href="#useragreement"]');
-      const userAgreementModal = document.getElementById('user-agree-modal');
+      const userAgreementLink = document.querySelector('a[href="#useragreement"]');
+    const userAgreementModal = document.getElementById('user-agree-modal');
 
-      if (userAgreementLink && userAgreementModal) {
-        const modal = new bootstrap.Modal(userAgreementModal);
+    if (userAgreementLink && userAgreementModal) {
+      const modal = new bootstrap.Modal(userAgreementModal);
 
-        userAgreementLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          modal.show();
-        });
+      userAgreementLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.show();
+      });
       }
     })
     .catch(err => {

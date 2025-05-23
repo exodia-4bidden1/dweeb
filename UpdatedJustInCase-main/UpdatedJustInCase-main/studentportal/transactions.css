@@ -4,12 +4,19 @@
     box-sizing: border-box;
     font-family: 'SF Pro Display';
 }
+
+html, body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
 body.modal-open {
   overflow: hidden;
 }
 
 .container {
-  margin-top: 100px; /* space for fixed header */
+  margin-top: 100px;
   margin-left: 50px;
   margin-right: 50px;
 }
@@ -178,23 +185,6 @@ input.form-control {
       border: 2px solid #d62839;
     }
 
-    .details-btn {
-    background-color: #ffffff;
-    color: #0D6EFF;
-    border: 2px solid #0D6EFF;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 15px;
-    margin-right: 10px;        
-    width: auto;          
-    max-width: 100%;     
-    }
-    .details-btn:hover {
-      background-color: #0d4caa;
-      color: white;
-      border: 2px solid #0d4caa;
-    } 
 
     
     .return-btn:hover, .borrow-btn:hover {

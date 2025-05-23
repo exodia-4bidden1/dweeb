@@ -138,15 +138,15 @@ input.form-control {
 }
 
 .button .reserve:hover {
-  background-color: white;
-  color: #0D6EFF;
-  border: 1px solid #0D6EFF;
+  background-color: #0056b3;
+  color: white;
+  border: 1px solid #0056b3;
 }
 
 /* END CARD */
 
 /* MODAL */
-.modal {
+.res-modal {
     display: none;
     position: fixed;   
     z-index: 2000;
@@ -156,7 +156,7 @@ input.form-control {
     align-items: center;
   }
   
-  .modal-content {
+  .popup-content {
     background: #fff;
     padding: 2rem;
     border-radius: 12px;
@@ -169,19 +169,19 @@ input.form-control {
     position: fixed;
   }
   
-  .modal-content h2 {
+  .popup-content h2 {
     margin-top: 0;
   }
   
-  .modal-content label {
+  .popup-content label {
     display: block;
     margin-top: 1rem;
     font-weight: bold;
   }
   
-  .modal-content textarea,
-  .modal-content select,
-  .modal-content input[type="time"] {
+  .popup-content textarea,
+  .poppup-content select,
+  .popup-content input[type="time"] {
     width: 100%;
     margin-top: 0.5rem;
     padding: 0.6rem;
@@ -290,7 +290,7 @@ input.form-control {
     max-width: 300px;
   }
 
-  .modal-content {
+  .popup-content {
     width: 90% !important;
     max-width: 100% !important;
     padding: 1.5rem !important;
@@ -302,7 +302,7 @@ input.form-control {
 }
 
 @media (max-width: 480px) {
-  .modal-content {
+  .popup-content {
     padding: 1rem !important;
   }
 
