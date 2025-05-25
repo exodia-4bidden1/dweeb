@@ -225,6 +225,10 @@ input.form-control {
     box-sizing: border-box;
   }
 
+  .buttons .submit:hover {
+    background-color: #1d4ed8;
+  }
+
   .buttons .cancel{
     border-color: #2563eb;
     border-style: solid;
@@ -235,6 +239,11 @@ input.form-control {
     flex: 1;
     min-width: 20%;
     box-sizing: border-box;
+  }
+
+  .buttons .cancel:hover {
+    background-color: #f3f4f6;
+    color: #1d4ed8;
   }
   /* END MODAL */
 
