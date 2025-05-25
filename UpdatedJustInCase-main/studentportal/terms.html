@@ -1,0 +1,89 @@
+<!-- terms.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Terms and Conditions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #1976d2;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 24px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .btn {
+      padding: 10px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-cancel {
+      background: none;
+      color: #1976d2;
+    }
+
+    .btn-agree {
+      background-color: #1976d2;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Terms and Conditions</h1>
+    <h2>Your Agreement</h2>
+    <p><strong>Last Revised:</strong> December 16, 2013</p>
+    <p>By using this Site, you agree to be bound by these Terms...</p>
+
+    <!-- Add more content as needed -->
+
+    <div class="buttons">
+      <button class="btn btn-cancel" onclick="window.close()">Cancel</button>
+      <button class="btn btn-agree" onclick="agreeTerms()">Agree</button>
+    </div>
+  </div>
+
+  <script>
+    function agreeTerms() {
+      if (window.opener && !window.opener.closed) {
+        window.opener.document.querySelector('#termsCheckbox').checked = true;
+      }
+      window.close();
+    }
+  </script>
+</body>
+</html>
