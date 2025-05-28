@@ -1,0 +1,238 @@
+/* Google Font - INTER */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+.container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #F5F5F8 0%, #b3d1ff 60%, #0D6EFF 100%);
+    column-gap: 30px;
+}
+
+.form-box {
+    max-width: 430px;
+    width: 100%;
+    padding: 30px;
+    background: #FFFFFF;
+    border-radius: 15px;
+    display: none; /* Initially hidden */
+}
+
+.form-box.active {
+    display: block; /* Show the form when active */
+}
+
+header {
+    font-size: 28px;
+    font-weight: 700;
+    color: #232836;
+    text-align: center;
+}
+
+.text {
+    font-size: 13px;
+    font-weight: 400;
+    color: #8b8b8b;
+    text-align: center;
+    margin-top: 6px;
+}
+
+.field-row {
+    display: flex;
+    gap: 15px;
+}
+
+.field-row .field {
+    flex: 1;
+    margin-top: 0;
+}
+
+form {
+    margin-top: 30px;
+}
+
+form .field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+
+.field button,
+.field input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 6px;
+}
+
+.field input:focus {
+    outline: none;
+    border: 2px solid #0D6EFF;
+}
+
+.field button {
+    background: #0D6EFF;
+    color: #FFF;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.field button:hover {
+    background: #0A58CA;
+}
+
+.field input {
+    padding: 0 15px;
+    background: #F8FAFC;
+}
+
+.form-link-pass{
+    text-align: end;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #8b8b8b;
+    padding: 5px;
+}
+
+.form-link-login,
+.form-link-signin{
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-link-login span,
+.form-link-signin span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #232836;
+}
+
+.form-link-login a,
+.form-link-signin a {
+    font-size: 15px;
+    font-size: 400;
+    font-weight: 700;
+    color: #232836;
+}
+
+.form a{
+    text-decoration: none;
+    color: #0D6EFF;
+}
+
+.form a:hover {
+    text-decoration: underline;
+}
+
+select.input {
+    height: 100%;
+    width: 100%;
+    border: 1px solid #CACACA;
+    border-radius: 6px;
+    padding: 0 15px;
+    font-size: 16px;
+    font-weight: 400;
+    background: #F8FAFC;
+    color: #232836;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    transition: border 0.2s;
+}
+
+select.input:focus {
+    border: 2px solid #0D6EFF;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper select.input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #F8FAFC;
+    padding-right: 35px; 
+}
+
+.select-wrapper .dropdown-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 20px;
+    color: #8b8b8b;
+}
+
+select.input,
+.select-wrapper select.input {
+    border: none;
+}
+
+.field-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 18px; 
+}
+
+.error-message {
+    padding: 15px;
+    border-radius: 6px;
+    color: #a42834;
+    text-align: center;
+    margin-top: 20px;
+    background: #f8d7da;
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+}
+
+.success-message {
+    padding: 15px;
+    border-radius: 6px;
+    color: #155724;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+}
+
