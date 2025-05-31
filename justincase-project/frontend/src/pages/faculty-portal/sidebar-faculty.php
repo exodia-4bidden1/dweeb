@@ -58,7 +58,7 @@
         <div class="menu-title">LOGOUT</div>
         <ul class="menu-items">
             <li class="menu-item">
-                <a href="./logout.html" class="menu-link">
+                <a href="../logout.php" class="menu-link">
                     <i class="fas fa-sign-out-alt icon"></i>
                     Log out
                 </a>
