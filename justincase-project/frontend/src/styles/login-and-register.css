@@ -107,15 +107,20 @@ form .field {
     font-weight: 600;
 }
 
-.eye-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 18px;
-    color: #8b8b8b;
-    padding: 5px;
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #8b8b8b;
+  user-select: none;
+  z-index: 2;
 }
 
 .form-link-login,
@@ -203,6 +208,28 @@ select.input,
     display: flex;
     gap: 15px;
     margin-top: 18px; 
+}
+
+/* Center and style the condition text */
+.condition-text {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #aaaaaa;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+.condition-text a {
+    color: #8b8b8be3;
+    font-weight: 500;
+    text-decoration: none;
+    margin: 0 2px;
+}
+
+.condition-text a:hover {
+    text-decoration: underline;
 }
 
 .error-message {

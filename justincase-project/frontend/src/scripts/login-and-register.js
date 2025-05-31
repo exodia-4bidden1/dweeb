@@ -1,12 +1,16 @@
-function showForm(formId) {
-  // Remove 'active' from all form-boxes
-  document.querySelectorAll('.form-box').forEach(box => {
-    box.classList.remove('active');
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.toggle-password').forEach(function (eye) {
+    eye.addEventListener('click', function () {
+      const input = document.querySelector(this.getAttribute('toggle'));
+      if (input.type === 'password') {
+        input.type = 'text';
+        this.classList.remove('bx-eye-closed');
+        this.classList.add('bx-eye');
+      } else {
+        input.type = 'password';
+        this.classList.remove('bx-eye');
+        this.classList.add('bx-eye-closed');
+      }
+    });
   });
-  // Add 'active' to the selected form-box
-  const activeBox = document.getElementById(formId);
-  if (activeBox) {
-    activeBox.classList.add('active');
-  }
-}
-
+});

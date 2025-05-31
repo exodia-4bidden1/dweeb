@@ -34,12 +34,12 @@ function isActiveForm($formName, $activeForm)
   <title>JustInCase</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="../styles/login-and-register.css" />
+  <link rel="stylesheet" href="../../styles/login-and-register.css" />
 
   <!-- Boxicons CSS -->
   <link
-    href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css"
-    rel="stylesheet" />
+    href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet" />
+  <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -53,7 +53,7 @@ function isActiveForm($formName, $activeForm)
         </p>
         <?= showSuccess($success) ?>
         <?php showError($errors['login']); ?>
-        <form action="login-register.php" method="post">
+        <form action="../../../../backend/auth/login-register-logic.php" method="post">
           <div class="field input-field">
             <input
               type="email"
@@ -62,14 +62,16 @@ function isActiveForm($formName, $activeForm)
               class="input"
               required />
           </div>
-          <div class="field input-field">
+          <div class="field input-field password-wrapper">
             <input
               type="password"
               placeholder="Password"
               name="password"
+              id="login-password"
+              autocomplete="off"
               class="password"
               required />
-            <i class="bx bx-eye-closed eye-icon"></i>
+            <i class='bx bx-eye-closed toggle-password' toggle="#login-password"></i>
           </div>
 
           <div class="form-link-pass">
@@ -101,7 +103,7 @@ function isActiveForm($formName, $activeForm)
           </p>
         </div>
         <?= showError($errors['registration']) ?>
-        <form action="login-register.php" method="post">
+        <form action="../../../../backend/auth/login-register-logic.php" method="post">
           <div class="field-row">
             <div class="field input-field">
               <input
@@ -143,23 +145,27 @@ function isActiveForm($formName, $activeForm)
               value="<?= htmlspecialchars($_SESSION['old']['student_id'] ?? '') ?>"
               required />
           </div>
-          <div class="field input-field">
+          <div class="field input-field password-wrapper">
             <input
               type="password"
               name="password"
               placeholder="Password"
+              autocomplete="off"
               class="password"
+              id="register-password"
               required />
-            <i class="bx bx-eye-closed eye-icon"></i>
+            <i class='bx bx-eye-closed toggle-password' toggle="#register-password"></i>
           </div>
-          <div class="field input-field">
+          <div class="field input-field password-wrapper">
             <input
               type="password"
               name="confirm_password"
               placeholder="Confirm Password"
               class="confirmPassword"
+              id="register-confirm-password"
+              autocomplete="off"
               required />
-            <i class="bx bx-eye-closed eye-icon"></i>
+            <i class='bx bx-eye-closed toggle-password' toggle="#register-confirm-password"></i>
           </div>
           <div class="field input-field select-wrapper">
             <select class="input" name="program" required>
@@ -183,7 +189,7 @@ function isActiveForm($formName, $activeForm)
             <div class="field input-field">
               <input
                 type="text"
-                placeholder="Phone Number"
+                placeholder="09XXXXXXXXX"
                 class="input"
                 name="contact_num"
                 maxlength="11"
@@ -199,13 +205,20 @@ function isActiveForm($formName, $activeForm)
             <span>Already have an account?
               <a href="clear-old.php?form=login" onclick="showForm('login-form')" class="login-link">Login here</a></span>
           </div>
+          <div class="">
+            <p class="condition-text">
+              By clicking continue, you agree to our
+              <a href="#" class="terms-link">Terms of Service</a> and
+              <a href="#" class="privacy-link">Privacy Policy</a>.
+            </p>
+          </div>
         </form>
       </div>
     </div>
   </section>
 
   <!-- JavaScript -->
-  <script src="../scripts/login-and-register.js"></script>
+  <script src="../../scripts/login-and-register.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once '../pages/backend/config/config.php';  // Include your database connection file
+require_once '../config/config.php';  // Include your database connection file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Registration for students only
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['success'] = "Registration successful! You can now log in.";
                         $_SESSION['active_form'] = 'login';
                         unset($_SESSION['old']);
-                        header("Location: index.php");
+                        header("Location: ../../frontend/src/pages/login-register.php");
                     } else {
                         $_SESSION['registration_error'] = "Registration failed. Please try again.";
                         $_SESSION['active_form'] = 'register';
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['active_form'] = 'register';
             store_old($first_name, $last_name, $nu_email, $student_id, $program, $year_level, $contact_num);
         }
-        header("Location: index.php");
+        header("Location: ../../frontend/src/pages/login-and-register/login-register.php");
         exit();
     }
     // Login for both students and faculty
@@ -140,9 +140,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['last_name'] = $last_name;
                         // Redirect to different portal based on role
                         if ($role === 'faculty') {
-                            header("Location: faculty-page.php");
+                            header("Location: ../../frontend/src/pages/faculty-portal/main-page-faculty.php");
                         } else {
-                            header("Location: student-page.php");
+                            header("Location: ../../frontend/src/pages/student-portal/main-page-student.php");
                         }
                         exit;
                     } else {
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $_SESSION['login_error'] = $error ?? '';
         $_SESSION['active_form'] = 'login';
-        header("Location: index.php");
+        header("Location: ../../frontend/src/pages/login-and-register/login-register.php");
         exit();
     }
 }

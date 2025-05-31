@@ -37,3 +37,11 @@ INSERT INTO `faculty` (`faculty_id`, `nu_email`, `first_name`, `last_name`, `pas
 VALUES ('2023-101010', 'johndoe@nu-dasma.edu.ph', 'John', 'Doe', '$2y$10$wHh6QZ8Q1v9QwQwQwQwQwOQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQw', NOW()); 
 
 -->
+
+<!-- - 
+- No logic in password eye icon + bug
+
+- Kulang
+By creating an account you agree to our 
+Terms and Condition and Privacy Policy 
+-->
