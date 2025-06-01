@@ -11,7 +11,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="../../styles/main-page-student.css" />
-  <link rel="stylesheet" href="../../styles/modal.css" />
+  <link rel="stylesheet" href="../../styles/borrow-modal.css" />
 
   <!-- Boxicons -->
   <link
@@ -116,19 +116,24 @@
             placeholder="Search devices by name, model, or specifications..."
             id="searchInput" />
         </div>
-        <select class="filter-select" id="statusFilter">
-          <option value="all">All Status</option>
-          <option value="available">Available</option>
-          <option value="maintenance">Under Maintenance</option>
-          <option value="unavailable">Unavailable</option>
-        </select>
-        <select class="filter-select" id="typeFilter">
-          <option value="all">All Types</option>
-          <option value="laptop">Laptops</option>
-          <option value="desktop">Desktops</option>
-          <option value="tablet">Tablets</option>
-          <option value="phone">Phones</option>
-        </select>
+        <div class="select-wrapper">
+          <select class="filter-select" id="statusFilter">
+            <option value="all">All Status</option>
+            <option value="available">Available</option>
+            <option value="borrowed">Borrowed</option>
+            <option value="maintenance">Under Maintenance</option>
+            <option value="unavailable">Unavailable</option>
+          </select>
+          <i class="bx bxs-chevron-down custom-dropdown-icon"></i>
+        </div>
+        <div class="select-wrapper">
+          <select class="filter-select" id="typeFilter">
+            <option value="all">All Types</option>
+            <option value="laptop">Laptops</option>
+            <option value="phone">Phones</option>
+          </select>
+          <i class="bx bxs-chevron-down custom-dropdown-icon"></i>
+        </div>
       </div>
 
       <div class="device-grid" id="deviceGrid">
@@ -137,12 +142,113 @@
     </div>
 
     <!-- Borrow Modal -->
-    <div id="borrowModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4);">
-      <div style="background:#fff; margin:10% auto; padding:32px 24px; border-radius:8px; width:90%; max-width:400px; position:relative;">
-        <span id="closeBorrowModal" style="position:absolute; top:12px; right:18px; font-size:24px; cursor:pointer;">&times;</span>
-        <h2 id="modalDeviceName" style="margin-bottom:12px;">Borrow Device</h2>
-        <div id="modalDeviceDetails" style="margin-bottom:20px; color:#64748b;"></div>
-        <button id="confirmBorrowBtn" class="btn-primary" style="width:100%;">Confirm Borrow</button>
+    <div id="modalOverlay" class="modal-overlay" style="display: none">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Device Reservation</h2>
+          <p>Fill out the form below to reserve your device</p>
+        </div>
+        <div class="modal-body">
+          <div class="device-info">
+            <div class="device-label">Device to Borrow</div>
+            <div class="device-name" id="deviceName">Device Name Here</div>
+          </div>
+          <div id="successMessage" class="success-message">
+            Reservation submitted successfully. You will receive a
+            confirmation in your notification if approved.
+          </div>
+          <form
+            id="reservationForm"
+            onsubmit="event.preventDefault(); submitReservation();">
+            <div class="form-group">
+              <label for="purpose">Purpose of Borrowing</label>
+              <select
+                id="purpose"
+                name="purpose"
+                class="form-control"
+                required>
+                <option value="">Select purpose</option>
+                <option value="Academic Project">Academic Project</option>
+                <option value="Research">Research</option>
+                <option value="Presentation">Presentation</option>
+                <option value="Testing">Testing</option>
+                <option value="Training">Training</option>
+                <option value="Development">Development</option>
+                <option value="Others">Others</option>
+              </select>
+              <div id="otherPurposeContainer" class="textarea-container">
+                <label for="otherPurpose">Please specify</label>
+                <textarea
+                  id="otherPurpose"
+                  name="otherPurpose"
+                  class="form-control"
+                  placeholder="Describe your specific purpose..."></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="borrowDate">Date to Borrow</label>
+              <input
+                type="date"
+                id="borrowDate"
+                name="borrowDate"
+                class="form-control"
+                required />
+            </div>
+            <div class="form-group">
+              <label>Borrowing Period</label>
+              <div class="time-grid">
+                <div>
+                  <label for="startTime">Start Time</label>
+                  <select
+                    id="startTime"
+                    name="startTime"
+                    class="form-control"
+                    required>
+                    <option value="">Select start time</option>
+                    <option value="01:00">1:00 AM</option>
+                    <option value="02:00">2:00 AM</option>
+                    <option value="03:00">3:00 AM</option>
+                    <option value="04:00">4:00 AM</option>
+                    <option value="05:00">5:00 AM</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="endTime">End Time</label>
+                  <select
+                    id="endTime"
+                    name="endTime"
+                    class="form-control"
+                    required>
+                    <option value="">Select end time</option>
+                  </select>
+                </div>
+              </div>
+              <div class="time-note">
+                Borrowing is only available from 1:00 AM to 5:00 AM
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="checkbox-container">
+                <input type="checkbox" id="agreeTerms" required />
+                <label for="agreeTerms">
+                  I agree to the Device Lending Agreement and understand I'm
+                  responsible for this equipment.
+                </label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="closeModal()">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-submit" id="submitBtn">
+                Submit Reservation
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -195,34 +301,36 @@
           Stay updated with device alerts and system messages.
         </p>
       </div>
-
-      <div class="notification-item error">
-        <div class="notification-title">Device Return Overdue</div>
-        <div class="notification-message">
-          Your MacBook Pro 16" (LT001) was due yesterday. Please return it
-          immediately to avoid additional charges.
-        </div>
-        <div class="notification-time">2 hours ago</div>
-      </div>
-
-      <div class="notification-item warning">
-        <div class="notification-title">Device Due Soon</div>
-        <div class="notification-message">
-          Your iPad Pro (TB001) is due for return in 2 days. Plan accordingly
-          to avoid late fees.
-        </div>
-        <div class="notification-time">1 day ago</div>
-      </div>
-
-      <div class="notification-item">
-        <div class="notification-title">New Device Available</div>
-        <div class="notification-message">
-          A new Surface Laptop 5 has been added to the device catalog and is
-          available for borrowing.
-        </div>
-        <div class="notification-time">3 days ago</div>
-      </div>
+      <div id="notificationList"></div>
     </div>
+
+    <!-- <div class="notification-item error">
+      <div class="notification-title">Device Return Overdue</div>
+      <div class="notification-message">
+        Your MacBook Pro 16" (LT001) was due yesterday. Please return it
+        immediately to avoid additional charges.
+      </div>
+      <div class="notification-time">2 hours ago</div>
+    </div>
+
+    <div class="notification-item warning">
+      <div class="notification-title">Device Due Soon</div>
+      <div class="notification-message">
+        Your iPad Pro (TB001) is due for return in 2 days. Plan accordingly
+        to avoid late fees.
+      </div>
+      <div class="notification-time">1 day ago</div>
+    </div>
+
+    <div class="notification-item">
+      <div class="notification-title">New Device Available</div>
+      <div class="notification-message">
+        A new Surface Laptop 5 has been added to the device catalog and is
+        available for borrowing.
+      </div>
+      <div class="notification-time">3 days ago</div>
+    </div>
+  </div> -->
 
     <!-- User Agreement Section -->
     <div class="content-section" id="user-agreement">
@@ -506,219 +614,7 @@
     </div>
   </div>
 
-  <script>
-    let devices = [];
-    let filteredDevices = [];
-
-    async function fetchDevices() {
-      try {
-        const response = await fetch("../../../../backend/api/get-devices.php");
-        devices = await response.json();
-        filteredDevices = [...devices];
-        renderDevices(filteredDevices);
-      } catch (e) {
-        document.getElementById("deviceGrid").innerHTML =
-          "<div>Error loading devices.</div>";
-      }
-    }
-
-    fetchDevices();
-
-    function renderDevices(devicesToRender) {
-      const deviceGrid = document.getElementById("deviceGrid");
-      deviceGrid.innerHTML = "";
-
-      devicesToRender.forEach((device) => {
-        const deviceCard = document.createElement("div");
-        deviceCard.className = "device-card";
-
-        const statusClass = `status-${device.status}`;
-        const statusText =
-          device.status.charAt(0).toUpperCase() + device.status.slice(1);
-        const isAvailable = device.status === "available";
-
-        const specsHTML = device.specs ?
-          Object.entries(device.specs)
-          .map(
-            ([key, value]) => `
-        <div class="spec-item">
-            <span class="spec-label">${key}:</span>
-            <span class="spec-value">${value}</span>
-        </div>
-      `
-          )
-          .join("") :
-          "";
-
-        deviceCard.innerHTML = `
-  <div class="device-id">#${device.id}</div>
-  <div class="device-icon">${device.icon}</div>
-  <div class="device-title">${device.name}</div>
-  <div class="device-model">${device.model}</div>
-  <div class="device-specs">
-    ${specsHTML}
-  </div>
-  <div class="device-footer">
-    <span class="status-badge ${statusClass}">${statusText}</span>
-    <span class="borrow-btn-placeholder"></span>
-  </div>
-`;
-
-        const borrowBtn = document.createElement("button");
-        borrowBtn.className = "borrow-btn";
-        borrowBtn.disabled = !isAvailable;
-        borrowBtn.textContent = isAvailable ? "Borrow" : "Not Available";
-        borrowBtn.addEventListener("click", () => borrowDevice(device.id, device.name));
-
-        // Place the button in the placeholder
-        deviceCard.querySelector(".borrow-btn-placeholder").appendChild(borrowBtn);
-
-        deviceGrid.appendChild(deviceCard);
-
-        deviceGrid.appendChild(deviceCard);
-      });
-    }
-
-    function filterDevices() {
-      const searchTerm = document
-        .getElementById("searchInput")
-        .value.toLowerCase();
-      const statusFilter = document.getElementById("statusFilter").value;
-      const typeFilter = document.getElementById("typeFilter").value;
-
-      filteredDevices = devices.filter((device) => {
-        const matchesSearch =
-          device.name.toLowerCase().includes(searchTerm) ||
-          device.model.toLowerCase().includes(searchTerm) ||
-          Object.values(device.specs).some((spec) =>
-            spec.toLowerCase().includes(searchTerm)
-          );
-
-        const matchesStatus =
-          statusFilter === "all" || device.status === statusFilter;
-        const matchesType =
-          typeFilter === "all" || device.type === typeFilter;
-
-        return matchesSearch && matchesStatus && matchesType;
-      });
-
-      renderDevices(filteredDevices);
-    }
-
-    function borrowDevice(deviceId, deviceName) {
-      const device = devices.find((d) => d.id === deviceId);
-      if (device && device.status === "available") {
-        // Show modal
-        document.getElementById("modalDeviceName").textContent = `Borrow: ${device.name}`;
-        document.getElementById("modalDeviceDetails").innerHTML = `
-      <strong>Device ID:</strong> ${device.id}<br>
-      <strong>Model:</strong> ${device.model}
-    `;
-        document.getElementById("borrowModal").style.display = "block";
-
-        // Set up confirm button
-        document.getElementById("confirmBorrowBtn").onclick = function() {
-          device.status = "unavailable";
-          filterDevices();
-          document.getElementById("borrowModal").style.display = "none";
-          alert(
-            `Successfully borrowed: ${device.name}\nDevice ID: ${device.id}\n\nPlease return the device by the specified due date.`
-          );
-        };
-      }
-    }
-    window.borrowDevice = borrowDevice;
-
-    document.getElementById("closeBorrowModal").onclick = function() {
-      document.getElementById("borrowModal").style.display = "none";
-    };
-    window.onclick = function(event) {
-      const modal = document.getElementById("borrowModal");
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    };
-
-    // Event listeners
-    document
-      .getElementById("searchInput")
-      .addEventListener("input", filterDevices);
-    document
-      .getElementById("statusFilter")
-      .addEventListener("change", filterDevices);
-    document
-      .getElementById("typeFilter")
-      .addEventListener("change", filterDevices);
-
-    // Navigation handling
-    document.querySelectorAll(".nav-item").forEach((item) => {
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        // Remove active class from all items
-        document
-          .querySelectorAll(".nav-item")
-          .forEach((nav) => nav.classList.remove("active"));
-
-        // Add active class to clicked item
-        item.classList.add("active");
-
-        // Hide all content sections
-        document.querySelectorAll(".content-section").forEach((section) => {
-          section.classList.remove("active");
-        });
-
-        // Show selected content section
-        const pageId = item.getAttribute("data-page");
-        const targetSection = document.getElementById(pageId);
-        if (targetSection) {
-          targetSection.classList.add("active");
-        }
-      });
-    });
-
-    // FAQ toggle functionality
-    document.querySelectorAll(".faq-question").forEach((question) => {
-      question.addEventListener("click", () => {
-        const faqItem = question.parentElement;
-        const isActive = faqItem.classList.contains("active");
-
-        // Close all FAQ items
-        document.querySelectorAll(".faq-item").forEach((item) => {
-          item.classList.remove("active");
-          item.querySelector(".faq-question span").textContent = "+";
-        });
-
-        // Toggle current item
-        if (!isActive) {
-          faqItem.classList.add("active");
-          question.querySelector("span").textContent = "-";
-        }
-      });
-    });
-
-    // User Agreement functionality
-    function acceptAgreement() {
-      const checkbox = document.getElementById("agreementCheck");
-      if (checkbox.checked) {
-        alert(
-          "Thank you for accepting the User Agreement. You can now proceed with device borrowing."
-        );
-      } else {
-        alert("Please read and check the agreement box before accepting.");
-      }
-    }
-
-    // User profile interaction
-    document.querySelector(".user-profile").addEventListener("click", () => {
-      alert(
-        "User profile clicked! In a real app, this would open a profile menu."
-      );
-    });
-
-    // Initial render
-    //   renderDevices(devices);
-  </script>
+  <script src="../../scripts/main-page-student.js"></script>
 </body>
 
 </html>

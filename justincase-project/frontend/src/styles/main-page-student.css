@@ -658,3 +658,29 @@ body {
     padding: 20px;
   }
 }
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 200px; /* Adjust as needed */
+  vertical-align: middle;
+}
+
+.filter-select {
+  width: 100%;
+  padding-right: 32px; /* Space for the icon */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: white;
+}
+
+.custom-dropdown-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  pointer-events: none;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #414141;
+}
