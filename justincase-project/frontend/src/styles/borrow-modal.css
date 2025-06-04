@@ -235,7 +235,7 @@ textarea.form-control {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  padding: 16px;
+  padding: 14px 20px 10px 20px;
   margin-bottom: 24px;
   text-align: center;
 }

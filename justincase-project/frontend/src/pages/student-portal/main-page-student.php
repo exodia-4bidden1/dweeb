@@ -12,6 +12,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="../../styles/main-page-student.css" />
   <link rel="stylesheet" href="../../styles/borrow-modal.css" />
+  <link rel="stylesheet" href="../../styles/borrowed-devices.css" />
 
   <!-- Boxicons -->
   <link
@@ -261,23 +262,17 @@
         </p>
       </div>
 
-      <div class="borrowed-item">
-        <div class="borrowed-info">
-          <h4>MacBook Pro 16" (2023 M2 Pro)</h4>
-          <p>Device ID: LT001 • Borrowed on: Jan 15, 2025</p>
-        </div>
-        <div class="due-date">Due: Feb 15, 2025</div>
+      <!-- Tabbed interface for filtering borrowed items -->
+      <div class="borrowed-filter-tabs" style="margin-bottom: 20px;">
+        <button class="tab-button active" data-filter="approved">Active</button>
+        <button class="tab-button" data-filter="all">History</button>
       </div>
 
-      <div class="borrowed-item">
-        <div class="borrowed-info">
-          <h4>iPad Pro 12.9" (6th Gen)</h4>
-          <p>Device ID: TB001 • Borrowed on: Jan 20, 2025</p>
-        </div>
-        <div class="due-date">Due: Feb 20, 2025</div>
+      <div id="borrowedDevicesList">
+        <!-- Borrowed devices will be populated here dynamically -->
       </div>
 
-      <div class="card">
+      <div class="card" style="margin-top: 20px;">
         <h3 style="margin-bottom: 16px; color: #1e293b">Return Guidelines</h3>
         <p style="color: #64748b; line-height: 1.6; margin-bottom: 12px">
           Please return devices by the specified due date to avoid late fees.
@@ -615,6 +610,8 @@
   </div>
 
   <script src="../../scripts/main-page-student.js"></script>
+  <script src="../../scripts/notifications.js"></script>
+  <script src="../../scripts/borrowed-devices.js"></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@ let filteredDevices = [];
 async function fetchDevices() {
     try {
         const response = await fetch(
-            "../../../../backend/api/get-devices.php"
+            "/dweeb/justincase-project/backend/api/get-devices.php"     
         );
         devices = await response.json(); // <-- assign to global variable!
         console.log(devices);
@@ -15,7 +15,7 @@ async function fetchDevices() {
             "<div>Error loading devices.</div>";
         console.error(e);
     }
-}
+}   
 fetchDevices();
 
 function renderDevices(devicesToRender) {
@@ -151,7 +151,7 @@ async function submitReservation() {
         };
 
         try {
-            const response = await fetch("../pages/create-reservation.php", {
+            const response = await fetch("../create-reservation.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -262,7 +262,7 @@ document
 
 // Navigation handling
 document.querySelectorAll(".nav-item").forEach((item) => {
-    item.addEventListener("click", (e) => {
+    item.addEventListener("click", async (e) => {
         e.preventDefault();
 
         // Remove active class from all items
@@ -278,11 +278,20 @@ document.querySelectorAll(".nav-item").forEach((item) => {
             section.classList.remove("active");
         });
 
-        // Show selected content section
+        // Show selected content section and fetch data if necessary
         const pageId = item.getAttribute("data-page");
         const targetSection = document.getElementById(pageId);
         if (targetSection) {
             targetSection.classList.add("active");
+
+            // Fetch and render data based on the active tab
+            if (pageId === 'transactions') {
+                fetchAndRenderBorrowedItems();
+            }
+            // Add an else if for a history tab if you create one, e.g.:
+            // else if (pageId === 'history') {
+            //     fetchAndRenderBorrowedItems(); // The function handles rendering to the correct list
+            // }
         }
     });
 });
@@ -432,19 +441,30 @@ function getButtonStyle(status) {
 }
 
 async function fetchNotifications() {
+    console.log('Fetching notifications...');
     try {
-        const response = await fetch("../../pages/get-notifications.php");
+        const response = await fetch("/dweeb/justincase-project/backend/api/get-notifications.php");
         const data = await response.json();
+        console.log('Notifications API response:', data);
         const notificationList = document.getElementById("notificationList");
         notificationList.innerHTML = "";
         if (data.success && data.notifications.length > 0) {
+            console.log('Displaying notifications:', data.notifications.length);
             data.notifications.forEach(notif => {
                 const notifDiv = document.createElement("div");
-                notifDiv.className = "notification-item " + (notif.type || "");
+                let borderStyle = "border-left: 4px solid transparent;"; // Default transparent border
+                if (notif.title === "Reservation Submitted") {
+                    borderStyle = "border-left: 4px solid #3b82f6;"; // Blue
+                } else if (notif.title === "Reservation Rejected") {
+                    borderStyle = "border-left: 4px solid #ef4444;"; // Red
+                }
+                // Apply white background and calculated border style
+                notifDiv.style = `background-color: white !important; ${borderStyle} padding: 12px; margin-bottom: 8px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);`;
+
                 notifDiv.innerHTML = `
-                    <div class="notification-title">${notif.title}</div>
-                    <div class="notification-message">${notif.message}</div>
-                    <div class="notification-time">${new Date(notif.created_at).toLocaleString()}</div>
+                    <div class="notification-title" style="font-weight: 600; margin-bottom: 4px;">${notif.title}</div>
+                    <div class="notification-message" style="font-size: 14px; color: #333;">${notif.message}</div>
+                    <div class="notification-time" style="font-size: 12px; color: #666; margin-top: 8px;">${new Date(notif.created_at).toLocaleString()}</div>
                 `;
                 notificationList.appendChild(notifDiv);
             });
@@ -456,3 +476,78 @@ async function fetchNotifications() {
     }
 }
 fetchNotifications();
+
+// Function to fetch and render borrowed devices and history
+async function fetchAndRenderBorrowedItems() {
+    console.log('Fetching user reservations...');
+    try {
+        const response = await fetch("/dweeb/justincase-project/backend/api/get-user-reservations.php");
+        const reservations = await response.json();
+        console.log('User reservations API response:', reservations);
+
+        const transactionsList = document.getElementById("transactionsList");
+        const historyList = document.getElementById("historyList");
+
+        // Clear existing lists
+        if (transactionsList) transactionsList.innerHTML = "";
+        if (historyList) historyList.innerHTML = "";
+
+        if (reservations.success && reservations.data.length > 0) {
+            const now = new Date();
+
+            reservations.data.forEach(reservation => {
+                const borrowDate = new Date(`${reservation.borrow_date} ${reservation.start_time}`);
+                const endDate = new Date(`${reservation.borrow_date} ${reservation.end_time}`);
+                
+                // For transactions tab: Show only approved and active reservations
+                if (transactionsList && reservation.status === 'approved' && new Date(`${reservation.borrow_date} ${reservation.end_time}`) > now) {
+                    const borrowedItem = document.createElement("div");
+                    borrowedItem.className = "borrowed-item";
+                    borrowedItem.innerHTML = `
+                        <div class="borrowed-info">
+                            <h4>${reservation.device_name || 'Unknown Device'}</h4>
+                            <p>Purpose: ${reservation.purpose}</p>
+                            <p>Borrow Period: ${reservation.borrow_date} ${reservation.start_time} - ${reservation.end_time}</p>
+                        </div>
+                        <span class="due-date">Due: ${reservation.borrow_date} ${reservation.end_time}</span>
+                    `;
+                    transactionsList.appendChild(borrowedItem);
+                }
+                
+                // For history tab: Show completed, rejected, or expired reservations
+                if (historyList && (reservation.status === 'completed' || 
+                    (reservation.status === 'approved' && endDate <= now) ||
+                    reservation.status === 'rejected')) {
+                    const historyItem = document.createElement("div");
+                    historyItem.className = "borrowed-item history-item";
+                    
+                    // Determine status display text
+                    let statusText = reservation.status;
+                    if (reservation.status === 'approved' && endDate <= now) {
+                        statusText = 'expired';
+                    } else if (reservation.status === 'BORROWED') { // Assuming 'BORROWED' is the pending status
+                        statusText = 'Pending';
+                    }
+                    
+                    historyItem.innerHTML = `
+                        <div class="borrowed-info">
+                            <h4>${reservation.device_name || 'Unknown Device'}</h4>
+                            <p>Purpose: ${reservation.purpose}</p>
+                            <p>Borrowed: ${reservation.borrow_date} ${reservation.start_time} - ${reservation.end_time}</p>
+                        </div>
+                        <span class="status ${statusText.toLowerCase()}">${statusText.charAt(0).toUpperCase() + statusText.slice(1)}</span>
+                    `;
+                    historyList.appendChild(historyItem);
+                }
+            });
+        } else {
+            if (transactionsList) transactionsList.innerHTML = "<div>No current borrowed devices.</div>";
+            if (historyList) historyList.innerHTML = "<div>No borrowing history available.</div>";
+        }
+
+    } catch (e) {
+        console.error('Error fetching user reservations:', e);
+        if (transactionsList) transactionsList.innerHTML = "<div>Error loading borrowed devices.</div>";
+        if (historyList) historyList.innerHTML = "<div>Error loading borrowing history.</div>";
+    }
+}

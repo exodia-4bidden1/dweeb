@@ -393,28 +393,6 @@ body {
   font-weight: 500;
 }
 
-/* Icons using CSS */
-/* .icon-catalog::before {
-  content: "📚";
-}
-.icon-borrowed::before {
-  content: "📦";
-}
-.icon-notifications::before {
-  content: "🔔";
-}
-.icon-agreement::before {
-  content: "📋";
-}
-.icon-settings::before {
-  content: "⚙";
-}
-.icon-terms::before {
-  content: "📄";
-}
-.icon-help::before {
-  content: "❓";
-} */
 
 .notification-badge {
   background: #ef4444;
@@ -533,14 +511,6 @@ body {
   padding: 16px;
   border-left: 4px solid #3b82f6;
   margin-bottom: 12px;
-}
-
-.notification-item.warning {
-  border-left-color: #f59e0b;
-}
-
-.notification-item.error {
-  border-left-color: #ef4444;
 }
 
 .notification-title {
@@ -683,4 +653,23 @@ body {
   transform: translateY(-50%);
   font-size: 20px;
   color: #414141;
+}
+
+/* Add these styles to ensure notifications are visible */
+#notificationList {
+    display: block !important; /* Ensure the container is displayed */
+    padding: 10px; /* Add some padding */
+}
+
+#notificationList > div {
+    display: block !important; /* Ensure individual notification items are displayed */
+    margin-bottom: 10px; /* Add space between notifications */
+    color: #333 !important; /* Ensure text color is visible */
+}
+
+#notificationList .notification-title,
+#notificationList .notification-message,
+#notificationList .notification-time {
+    display: block !important; /* Ensure inner elements are displayed */
+    color: #333 !important; /* Ensure text color is visible */
 }

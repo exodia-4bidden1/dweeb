@@ -27,8 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reservation_id'], $_P
     // Insert notification
     $title = "Reservation " . ucfirst($action);
     $message = "Your reservation for device #$device_id has been $action by the faculty.";
-    $notif_stmt = $conn->prepare("INSERT INTO notifications (student_id, title, message, type) VALUES (?, ?, ?, 'approval')");
-    $notif_stmt->bind_param("sss", $student_id, $title, $message);
+    $notification_type = ($action === 'approved') ? 'approval' : 'system'; // Set type based on action
+    $notif_stmt = $conn->prepare("INSERT INTO notifications (student_id, title, message, type) VALUES (?, ?, ?, ?)");
+    $notif_stmt->bind_param("ssss", $student_id, $title, $message, $notification_type); // Bind the determined type
     $notif_stmt->execute();
 
     echo "<script>alert('Reservation $action.');window.location.reload();</script>";
