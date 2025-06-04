@@ -1,7 +1,18 @@
 // Function to fetch notifications
 async function fetchNotifications() {
     try {
-        const response = await fetch('/dweeb/justincase-project/backend/api/get-notifications.php'); 
+        // First check if we have a session
+        const sessionCheck = await fetch('/dweeb/justincase-project/backend/api/check-session.php');
+        const sessionData = await sessionCheck.json();
+        
+        if (!sessionData.logged_in) {
+            console.error('User not logged in');
+            return;
+        }
+
+        const response = await fetch('/dweeb/justincase-project/backend/api/get-notifications.php', {
+            credentials: 'include' // This is important for sending cookies
+        }); 
         const data = await response.json();
         
         if (data.success) {
@@ -90,6 +101,6 @@ function getTimeAgo(date) {
 // Fetch notifications when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     fetchNotifications();
-    // Refresh notifications every minute
-    setInterval(fetchNotifications, 60000);
+    // Refresh notifications every 30 seconds
+    setInterval(fetchNotifications, 30000);
 }); 

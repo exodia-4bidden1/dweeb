@@ -272,6 +272,10 @@
         <!-- Borrowed devices will be populated here dynamically -->
       </div>
 
+      <div id="historyList">
+        <!-- History of completed reservations will be populated here dynamically -->
+      </div>
+
       <div class="card" style="margin-top: 20px;">
         <h3 style="margin-bottom: 16px; color: #1e293b">Return Guidelines</h3>
         <p style="color: #64748b; line-height: 1.6; margin-bottom: 12px">

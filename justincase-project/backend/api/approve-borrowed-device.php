@@ -32,7 +32,7 @@ try {
 
     // Update reservation status to approved
     $update_reservation = $conn->prepare("
-        UPDATE resernvations 
+        UPDATE reservations 
         SET status = 'approved', 
             faculty_id = ?, 
             approved_at = NOW() 
@@ -55,6 +55,9 @@ try {
     $get_details->bind_param("i", $reservation_id);
     $get_details->execute();
     $details = $get_details->get_result()->fetch_assoc();
+
+    // Add logging here to check details
+    error_log("Reservation details for notification: " . print_r($details, true));
 
     // Update device status to borrowed
     $update_device = $conn->prepare("

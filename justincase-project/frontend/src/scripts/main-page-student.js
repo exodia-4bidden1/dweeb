@@ -4,7 +4,7 @@ let filteredDevices = [];
 async function fetchDevices() {
     try {
         const response = await fetch(
-            "/dweeb/justincase-project/backend/api/get-devices.php"     
+            "/dweeb/justincase-project/backend/api/get-devices.php"
         );
         devices = await response.json(); // <-- assign to global variable!
         console.log(devices);
@@ -15,7 +15,7 @@ async function fetchDevices() {
             "<div>Error loading devices.</div>";
         console.error(e);
     }
-}   
+}
 fetchDevices();
 
 function renderDevices(devicesToRender) {
@@ -440,114 +440,100 @@ function getButtonStyle(status) {
     }
 }
 
-async function fetchNotifications() {
-    console.log('Fetching notifications...');
-    try {
-        const response = await fetch("/dweeb/justincase-project/backend/api/get-notifications.php");
-        const data = await response.json();
-        console.log('Notifications API response:', data);
-        const notificationList = document.getElementById("notificationList");
-        notificationList.innerHTML = "";
-        if (data.success && data.notifications.length > 0) {
-            console.log('Displaying notifications:', data.notifications.length);
-            data.notifications.forEach(notif => {
-                const notifDiv = document.createElement("div");
-                let borderStyle = "border-left: 4px solid transparent;"; // Default transparent border
-                if (notif.title === "Reservation Submitted") {
-                    borderStyle = "border-left: 4px solid #3b82f6;"; // Blue
-                } else if (notif.title === "Reservation Rejected") {
-                    borderStyle = "border-left: 4px solid #ef4444;"; // Red
-                }
-                // Apply white background and calculated border style
-                notifDiv.style = `background-color: white !important; ${borderStyle} padding: 12px; margin-bottom: 8px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);`;
-
-                notifDiv.innerHTML = `
-                    <div class="notification-title" style="font-weight: 600; margin-bottom: 4px;">${notif.title}</div>
-                    <div class="notification-message" style="font-size: 14px; color: #333;">${notif.message}</div>
-                    <div class="notification-time" style="font-size: 12px; color: #666; margin-top: 8px;">${new Date(notif.created_at).toLocaleString()}</div>
-                `;
-                notificationList.appendChild(notifDiv);
-            });
-        } else {
-            notificationList.innerHTML = "<div>No notifications yet.</div>";
-        }
-    } catch (e) {
-        document.getElementById("notificationList").innerHTML = "<div>Error loading notifications.</div>";
-    }
-}
-fetchNotifications();
-
-// Function to fetch and render borrowed devices and history
 async function fetchAndRenderBorrowedItems() {
     console.log('Fetching user reservations...');
     try {
-        const response = await fetch("/dweeb/justincase-project/backend/api/get-user-reservations.php");
+        const response = await fetch("/dweeb/justincase-project/backend/api/get-user-reservations.php?student_id=2023-172077");
         const reservations = await response.json();
-        console.log('User reservations API response:', reservations);
 
-        const transactionsList = document.getElementById("transactionsList");
+        console.log('Reservations:', reservations);
+
+        const transactionsList = document.getElementById("borrowedDevicesList");
         const historyList = document.getElementById("historyList");
 
-        // Clear existing lists
-        if (transactionsList) transactionsList.innerHTML = "";
-        if (historyList) historyList.innerHTML = "";
+        if (!transactionsList || !historyList) {
+            console.error("Error: Required elements 'borrowedDevicesList' or 'historyList' are missing in the HTML.");
+            return;
+        }
 
-        if (reservations.success && reservations.data.length > 0) {
+        // Clear the content of both lists before rendering
+        transactionsList.innerHTML = "";
+        historyList.innerHTML = "";
+
+        if (reservations.success && reservations.devices.length > 0) {
             const now = new Date();
 
-            reservations.data.forEach(reservation => {
+            reservations.devices.forEach(reservation => {
                 const borrowDate = new Date(`${reservation.borrow_date} ${reservation.start_time}`);
                 const endDate = new Date(`${reservation.borrow_date} ${reservation.end_time}`);
-                
-                // For transactions tab: Show only approved and active reservations
-                if (transactionsList && reservation.status === 'approved' && new Date(`${reservation.borrow_date} ${reservation.end_time}`) > now) {
+
+                console.log('Processing reservation:', reservation);
+
+                // Active tab: Show only approved and ongoing reservations
+                if (reservation.reservation_status === 'approved' && endDate > now) {
                     const borrowedItem = document.createElement("div");
-                    borrowedItem.className = "borrowed-item";
+                    borrowedItem.className = "rental-card";
                     borrowedItem.innerHTML = `
                         <div class="borrowed-info">
-                            <h4>${reservation.device_name || 'Unknown Device'}</h4>
-                            <p>Purpose: ${reservation.purpose}</p>
+                            <h4>${reservation.name || 'Unknown Device'}</h4>
+                            <p>Model: ${reservation.model}</p>
                             <p>Borrow Period: ${reservation.borrow_date} ${reservation.start_time} - ${reservation.end_time}</p>
                         </div>
                         <span class="due-date">Due: ${reservation.borrow_date} ${reservation.end_time}</span>
                     `;
+                    console.log('Appending to Borrowed Devices List:', borrowedItem);
                     transactionsList.appendChild(borrowedItem);
                 }
-                
-                // For history tab: Show completed, rejected, or expired reservations
-                if (historyList && (reservation.status === 'completed' || 
-                    (reservation.status === 'approved' && endDate <= now) ||
-                    reservation.status === 'rejected')) {
+
+                // History tab: Show completed or returned reservations
+                if (reservation.reservation_status === 'completed' || endDate <= now) {
                     const historyItem = document.createElement("div");
-                    historyItem.className = "borrowed-item history-item";
-                    
-                    // Determine status display text
-                    let statusText = reservation.status;
-                    if (reservation.status === 'approved' && endDate <= now) {
-                        statusText = 'expired';
-                    } else if (reservation.status === 'BORROWED') { // Assuming 'BORROWED' is the pending status
-                        statusText = 'Pending';
-                    }
-                    
+                    historyItem.className = "history-item";
+                    historyItem.style.marginBottom = "16px"; // Ensure proper spacing between cards
+
+                    let statusText = reservation.reservation_status === 'completed' ? "Returned" : "Completed";
                     historyItem.innerHTML = `
-                        <div class="borrowed-info">
-                            <h4>${reservation.device_name || 'Unknown Device'}</h4>
-                            <p>Purpose: ${reservation.purpose}</p>
-                            <p>Borrowed: ${reservation.borrow_date} ${reservation.start_time} - ${reservation.end_time}</p>
+                        <div class="history-info">
+                            <h4>${reservation.name || 'Unknown Device'}</h4>
+                            <p>Status: ${statusText}</p>
+                            <p>Borrow Period: ${reservation.borrow_date} ${reservation.start_time} - ${reservation.end_time}</p>
                         </div>
-                        <span class="status ${statusText.toLowerCase()}">${statusText.charAt(0).toUpperCase() + statusText.slice(1)}</span>
+                        <span class="return-date">Returned: ${reservation.borrow_date} ${reservation.end_time}</span>
                     `;
+                    console.log('Appending to History List:', historyItem);
                     historyList.appendChild(historyItem);
                 }
             });
         } else {
-            if (transactionsList) transactionsList.innerHTML = "<div>No current borrowed devices.</div>";
-            if (historyList) historyList.innerHTML = "<div>No borrowing history available.</div>";
+            transactionsList.innerHTML = "<div>No active reservations found.</div>";
+            historyList.innerHTML = "<div>No history available.</div>";
         }
-
     } catch (e) {
         console.error('Error fetching user reservations:', e);
-        if (transactionsList) transactionsList.innerHTML = "<div>Error loading borrowed devices.</div>";
-        if (historyList) historyList.innerHTML = "<div>Error loading borrowing history.</div>";
+        transactionsList.innerHTML = "<div>Error loading active reservations.</div>";
+        historyList.innerHTML = "<div>Error loading history.</div>";
     }
 }
+
+// Event listeners for tab switching
+document.querySelectorAll(".tab-button").forEach(button => {
+    button.addEventListener("click", () => {
+        const filter = button.getAttribute("data-filter");
+
+        // Toggle active class for tabs
+        document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        // Show/hide content based on filter
+        if (filter === "approved") {
+            document.getElementById("borrowedDevicesList").style.display = "block";
+            document.getElementById("historyList").style.display = "none";
+        } else if (filter === "history") {
+            document.getElementById("borrowedDevicesList").style.display = "none";
+            document.getElementById("historyList").style.display = "block";
+        }
+    });
+});
+
+// Initial fetch and render
+fetchAndRenderBorrowedItems();

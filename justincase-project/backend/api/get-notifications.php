@@ -1,5 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
 require_once '../config/config.php';
@@ -40,6 +41,7 @@ try {
     ]);
 
 } catch (Exception $e) {
+    error_log("Error in get-notifications.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
